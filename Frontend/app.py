@@ -7,10 +7,11 @@ import requests
 import streamlit as st
 
 # ------------------------------------------------------------
-# CONFIGURACIÓN
+# CONFIGURACIÓN (¡URLs Corregidas!)
 # ------------------------------------------------------------
-CHAT_API_URL = os.getenv("CHAT_API_URL", "http://127.0.0.1:8001/chat")
-PDF_API_URL = os.getenv("PDF_API_URL", "http://127.0.0.1:8000/upload-pdf/")
+CHAT_API_URL = "https://universidad-megt.onrender.com/chat"
+# Le agregamos /upload-pdf/ al final a la URL de los PDFs
+PDF_API_URL = "https://universidad-1-uvcd.onrender.com/upload-pdf/" 
 REQUEST_TIMEOUT = 120
 
 SUGERENCIAS = [
@@ -159,7 +160,8 @@ if menu == "💬 Asistente Virtual":
                     st.write_stream(efecto_escritura(respuesta))
                     st.session_state.messages.append({"role": "assistant", "content": respuesta})
                 except requests.exceptions.ConnectionError:
-                    st.error("No pude conectar con el agente. ¿Está encendida la Terminal 2 (puerto 8001)?")
+                    # Mensaje actualizado para producción
+                    st.error("No pude conectar con el agente. Por favor, intenta de nuevo en unos segundos (el servidor puede estar despertando).")
                 except Exception as e:
                     st.error(f"Ocurrió un error: {e}")
 
