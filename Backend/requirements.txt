@@ -4,9 +4,7 @@ langgraph
 langgraph-checkpoint-sqlite
 langchain-groq
 langchain-postgres
-langchain-huggingface
-langchain-community
-sentence-transformers
+langchain-google-genai
 python-dotenv
 pypdf
 psycopg[binary]

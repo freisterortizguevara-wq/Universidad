@@ -5,7 +5,7 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from langchain_groq import ChatGroq
 from langchain_postgres import PGVector
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings # <-- NUEVO IMPORT
 from langchain_core.tools import tool
 from langchain_core.messages import HumanMessage, ToolMessage, SystemMessage
 from fastapi import FastAPI
@@ -15,7 +15,13 @@ load_dotenv()
 
 # 1. Configurar LLM, Embeddings y Base Vectorial
 llm = ChatGroq(model="openai/gpt-oss-20b", temperature=0)
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+
+# Usamos la API de Google Gemini para generar los embeddings (ahorra RAM)
+embeddings = GoogleGenerativeAIEmbeddings(
+    model="models/gemini-embedding-001",
+    google_api_key=os.getenv("GOOGLE_API_KEY")
+)
+
 vector_store = PGVector(
     embeddings=embeddings,
     collection_name="tech_universidad_docs",
