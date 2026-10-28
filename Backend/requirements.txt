@@ -1,5 +1,7 @@
 fastapi
 uvicorn
+langgraph
+langgraph-checkpoint-sqlite
 langchain-groq
 langchain-postgres
 langchain-huggingface
@@ -9,3 +11,4 @@ python-dotenv
 pypdf
 psycopg[binary]
 pydantic
+python-multipart
