@@ -61,11 +61,11 @@ html, body, .stApp, [class*="st-"] {
 [data-testid="stSidebar"] .stRadio label {
     background-color: transparent !important;
     padding: 12px 16px !important;
-    border-radius: 10px !important;
+    border-radius: 12px !important; /* Un poco más redondeado */
     border: 1px solid transparent !important;
     transition: all 0.2s ease !important;
     cursor: pointer !important;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 [data-testid="stSidebar"] .stRadio label:hover {
@@ -92,7 +92,7 @@ html, body, .stApp, [class*="st-"] {
 .hero {
     background: var(--surface);
     padding: 2.5rem;
-    border-radius: 16px;
+    border-radius: 20px; /* Más curvo, más moderno */
     border: 1px solid var(--border);
     box-shadow: 0 4px 20px rgba(0,0,0,0.02);
     margin-bottom: 2rem;
@@ -118,7 +118,6 @@ html, body, .stApp, [class*="st-"] {
 /* ============================================================
    CHAT: ARREGLANDO EL FONDO NEGRO Y ESTILOS
    ============================================================ */
-/* 1. Forzar que el contenedor de abajo (donde está el input) sea blanco/gris */
 [data-testid="stBottom"], 
 [data-testid="stBottomBlockContainer"],
 .stChatFloatingInputContainer {
@@ -127,28 +126,27 @@ html, body, .stApp, [class*="st-"] {
     border-top: 1px solid var(--border);
 }
 
-/* 2. El cuadro de texto del chat (Blanco, limpio, con sombra suave) */
 [data-testid="stChatInput"] {
     background-color: var(--surface) !important;
     border: 1px solid var(--border) !important;
-    border-radius: 12px !important;
+    border-radius: 16px !important; /* Input más redondeado */
     box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+    transition: all 0.2s ease !important;
 }
 
 [data-testid="stChatInput"]:focus-within {
     border-color: var(--brand-pink) !important;
-    box-shadow: 0 0 0 3px rgba(222, 39, 129, 0.1) !important;
+    box-shadow: 0 0 0 4px rgba(222, 39, 129, 0.15) !important; /* Halo más notorio */
 }
 
 [data-testid="stChatInput"] textarea {
     color: var(--text-main) !important;
 }
 
-/* 3. Botón de enviar del chat (Rosa TECH) */
 [data-testid="stChatInput"] button {
     background-color: var(--brand-pink) !important;
     color: white !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
     transition: background 0.2s;
 }
 
@@ -156,7 +154,7 @@ html, body, .stApp, [class*="st-"] {
     background-color: #be185d !important;
 }
 
-/* 4. Burbujas de mensajes */
+/* Burbujas de mensajes */
 [data-testid="stChatMessageAvatarUser"], 
 [data-testid="stChatMessageAvatarAssistant"] {
     background-color: transparent !important;
@@ -167,7 +165,7 @@ html, body, .stApp, [class*="st-"] {
 [data-testid="stChatMessage"] {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 1.2rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     margin-bottom: 1rem;
@@ -177,17 +175,19 @@ html, body, .stApp, [class*="st-"] {
    BOTONES GENERALES
    ============================================================ */
 .stButton > button {
-    border-radius: 10px;
+    border-radius: 12px;
     font-weight: 600;
     border: 1px solid var(--border);
     background-color: var(--surface);
     color: var(--text-main);
     transition: all 0.2s;
+    padding: 0.5rem 1rem;
 }
 
 .stButton > button:hover {
     border-color: var(--brand-blue); /* Azul TECH */
     color: var(--brand-blue);
+    box-shadow: 0 4px 12px rgba(0, 130, 225, 0.1);
 }
 
 button[kind="primary"] {
@@ -199,5 +199,74 @@ button[kind="primary"] {
 
 button[kind="primary"]:hover {
     background-color: #be185d !important;
-    transform: translateY(-1px);
+    transform: translateY(-2px); /* Efecto de elevación */
+    box-shadow: 0 6px 16px rgba(222, 39, 129, 0.3);
+}
+
+/* ============================================================
+   FIX PREMIUM PARA EL CARGADOR DE ARCHIVOS (FILE UPLOADER)
+   ============================================================ */
+[data-testid="stFileUploaderDropzone"] {
+    background-color: #f8f9fc !important;
+    border: 2px dashed #cbd5e1 !important;
+    border-radius: 16px !important;
+    padding: 2.5rem 1.5rem !important;
+    transition: all 0.3s ease !important;
+    text-align: center;
+}
+
+[data-testid="stFileUploaderDropzone"]:hover {
+    background-color: #fff0f7 !important;
+    border-color: var(--brand-pink) !important;
+}
+
+[data-testid="stFileUploaderDropzone"] button {
+    background-color: var(--surface) !important;
+    color: var(--brand-pink) !important;
+    border: 1px solid var(--brand-pink) !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1.5rem !important;
+    transition: all 0.2s !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+}
+
+[data-testid="stFileUploaderDropzone"] button:hover {
+    background-color: var(--brand-pink) !important;
+    color: var(--surface) !important;
+    box-shadow: 0 4px 12px rgba(222, 39, 129, 0.2) !important;
+}
+
+[data-testid="stFileUploaderDropzone"] span {
+    color: var(--text-muted) !important;
+    font-size: 0.9rem !important;
+    font-weight: 500;
+}
+
+[data-testid="stFileUploaderDropzone"] svg {
+    display: none !important; /* Ocultamos el ícono feo */
+}
+
+/* ============================================================
+   FORMULARIOS (CONTACTO)
+   ============================================================ */
+[data-testid="stForm"] {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+[data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="select"] > div {
+    border-radius: 10px !important;
+    border: 1px solid var(--border) !important;
+    background-color: var(--bg-app) !important;
+    transition: all 0.2s ease;
+}
+
+[data-baseweb="input"]:focus-within, [data-baseweb="textarea"]:focus-within {
+    border-color: var(--brand-blue) !important;
+    background-color: var(--surface) !important;
+    box-shadow: 0 0 0 3px rgba(0, 130, 225, 0.1);
 }

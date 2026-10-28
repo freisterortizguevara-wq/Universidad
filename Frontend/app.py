@@ -11,7 +11,7 @@ import streamlit as st
 # ------------------------------------------------------------
 CHAT_API_URL = "https://universidad-megt.onrender.com/chat"
 # Le agregamos /upload-pdf/ al final a la URL de los PDFs
-PDF_API_URL = "https://universidad-1-uvcd.onrender.com/upload-pdf/" 
+PDF_API_URL = "https://universidad-megt.onrender.com/upload-pdf/"
 REQUEST_TIMEOUT = 120
 
 SUGERENCIAS = [
