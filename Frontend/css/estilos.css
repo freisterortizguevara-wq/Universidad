@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg-app: #f8f9fc; /* Fondo general gris perla */
+    --surface: #ffffff;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --brand-pink: #de2781; /* Rosa TECH */
+    --brand-blue: #0082e1; /* Azul TECH */
+    --border: #e5e7eb;
+}
+
+html, body, .stApp, [class*="st-"] {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+}
+
+.stApp {
+    background-color: var(--bg-app);
+}
+
+#MainMenu, footer { visibility: hidden; }
+
+/* ============================================================
+   SIDEBAR (MENÚ LATERAL EJECUTIVO - ESTILO TECH)
+   ============================================================ */
+[data-testid="stSidebar"] {
+    background-color: var(--surface);
+    border-right: 1px solid var(--border);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+}
+
+[data-testid="stSidebar"] .block-container {
+    padding-top: 2rem;
+}
+
+.sidebar-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.2rem;
+    letter-spacing: -0.03em;
+}
+
+.sidebar-title span {
+    color: var(--brand-pink); /* Rosa TECH */
+}
+
+.sidebar-sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+/* Ocultar el circulito feo del radio button original */
+[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] > div:first-child {
+    display: none !important;
+}
+
+/* Estilo de los botones del menú */
+[data-testid="stSidebar"] .stRadio label {
+    background-color: transparent !important;
+    padding: 12px 16px !important;
+    border-radius: 10px !important;
+    border: 1px solid transparent !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    margin-bottom: 4px;
+}
+
+[data-testid="stSidebar"] .stRadio label:hover {
+    background-color: var(--bg-app) !important;
+}
+
+/* Opción seleccionada en el menú (Usa el Rosa TECH) */
+[data-testid="stSidebar"] .stRadio [data-checked="true"] label {
+    background-color: #fff0f7 !important; /* Fondo rosa muy claro */
+    border-color: #fbcfe8 !important;
+    color: var(--brand-pink) !important;
+    font-weight: 700 !important;
+}
+
+/* ============================================================
+   CONTENIDO PRINCIPAL Y TARJETAS
+   ============================================================ */
+.block-container {
+    max-width: 1000px;
+    padding-top: 3rem;
+    padding-bottom: 6rem; /* Espacio para el chat flotante */
+}
+
+.hero {
+    background: var(--surface);
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    margin-bottom: 2rem;
+}
+
+.hero-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: var(--text-main);
+}
+
+.hero-title span {
+    color: var(--brand-pink);
+}
+
+.hero-sub {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* ============================================================
+   CHAT: ARREGLANDO EL FONDO NEGRO Y ESTILOS
+   ============================================================ */
+/* 1. Forzar que el contenedor de abajo (donde está el input) sea blanco/gris */
+[data-testid="stBottom"], 
+[data-testid="stBottomBlockContainer"],
+.stChatFloatingInputContainer {
+    background-color: var(--bg-app) !important; 
+    background: var(--bg-app) !important;
+    border-top: 1px solid var(--border);
+}
+
+/* 2. El cuadro de texto del chat (Blanco, limpio, con sombra suave) */
+[data-testid="stChatInput"] {
+    background-color: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+}
+
+[data-testid="stChatInput"]:focus-within {
+    border-color: var(--brand-pink) !important;
+    box-shadow: 0 0 0 3px rgba(222, 39, 129, 0.1) !important;
+}
+
+[data-testid="stChatInput"] textarea {
+    color: var(--text-main) !important;
+}
+
+/* 3. Botón de enviar del chat (Rosa TECH) */
+[data-testid="stChatInput"] button {
+    background-color: var(--brand-pink) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    transition: background 0.2s;
+}
+
+[data-testid="stChatInput"] button:hover {
+    background-color: #be185d !important;
+}
+
+/* 4. Burbujas de mensajes */
+[data-testid="stChatMessageAvatarUser"], 
+[data-testid="stChatMessageAvatarAssistant"] {
+    background-color: transparent !important;
+    border: none !important;
+    font-size: 1.5rem !important;
+}
+
+[data-testid="stChatMessage"] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    margin-bottom: 1rem;
+}
+
+/* ============================================================
+   BOTONES GENERALES
+   ============================================================ */
+.stButton > button {
+    border-radius: 10px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text-main);
+    transition: all 0.2s;
+}
+
+.stButton > button:hover {
+    border-color: var(--brand-blue); /* Azul TECH */
+    color: var(--brand-blue);
+}
+
+button[kind="primary"] {
+    background-color: var(--brand-pink) !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(222, 39, 129, 0.2);
+}
+
+button[kind="primary"]:hover {
+    background-color: #be185d !important;
+    transform: translateY(-1px);
+}

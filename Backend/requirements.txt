@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+langchain-groq
+langchain-postgres
+langchain-huggingface
+langchain-community
+sentence-transformers
+python-dotenv
+pypdf
+psycopg[binary]
+pydantic

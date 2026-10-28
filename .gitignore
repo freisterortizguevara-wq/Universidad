@@ -1,0 +1,13 @@
+# Entorno virtual
+.venv/
+
+# Archivo de variables de entorno (Tus llaves secretas)
+.env
+
+# Bases de datos locales
+*.db
+*.sqlite
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
