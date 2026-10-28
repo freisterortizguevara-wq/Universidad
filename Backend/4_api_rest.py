@@ -5,15 +5,20 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_postgres import PGVector
-from langchain_huggingface import HuggingFaceEmbeddings
+# CAMBIO 1: Usamos Google en lugar de HuggingFace
+from langchain_google_genai import GoogleGenerativeAIEmbeddings 
 
 # Cargar variables de entorno
 load_dotenv()
 
 app = FastAPI(title="API de Carga de PDFs - TECH")
 
-# 1. Configurar la base vectorial (Igual que en tus scripts anteriores)
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+# CAMBIO 2: Configurar los embeddings con Google (Ahorra RAM)
+embeddings = GoogleGenerativeAIEmbeddings(
+    model="models/gemini-embedding-001",
+    google_api_key=os.getenv("GOOGLE_API_KEY")
+)
+
 CONNECTION_STRING = os.getenv("NEON_DATABASE_URL")
 
 vector_store = PGVector(
@@ -26,7 +31,7 @@ vector_store = PGVector(
 # 2. El Endpoint (Ruta) para subir un PDF
 @app.post("/upload-pdf/")
 async def upload_pdf(file: UploadFile = File(...)):
-    # Validación básica del tipo de archivo [citation:2]
+    # Validación básica del tipo de archivo
     if file.content_type != "application/pdf":
         raise HTTPException(status_code=400, detail="El archivo debe ser un PDF")
 
@@ -36,12 +41,11 @@ async def upload_pdf(file: UploadFile = File(...)):
         with open(temp_file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         
-        # 3. Cargar el PDF con LangChain [citation:3][citation:6]
+        # 3. Cargar el PDF con LangChain
         loader = PyPDFLoader(temp_file_path)
         docs = loader.load()
         
         # 4. Dividir el texto en trozos (Chunking)
-        # Usamos RecursiveCharacterTextSplitter para no cortar palabras a la mitad [citation:3]
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=150,

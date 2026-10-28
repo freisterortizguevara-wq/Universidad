@@ -5,6 +5,7 @@ langgraph-checkpoint-sqlite
 langchain-groq
 langchain-postgres
 langchain-google-genai
+langchain-community    <-- AÑADE ESTA LÍNEA
 python-dotenv
 pypdf
 psycopg[binary]
