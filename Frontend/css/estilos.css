@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Marca */
     --brand-pink: #de2781;
     --brand-pink-hover: #be185d;
     --brand-pink-soft: #fff0f7;
@@ -10,7 +9,6 @@
     --brand-grad: linear-gradient(135deg, #de2781 0%, #f472b6 100%);
     --brand-grad-wide: linear-gradient(90deg, #de2781, #8b5cf6 55%, #0082e1);
 
-    /* Neutros */
     --bg-app: #f4f7f9;
     --surface: #ffffff;
     --surface-2: #f8fafc;
@@ -20,20 +18,21 @@
     --border: #e2e8f0;
     --border-strong: #cbd5e1;
 
-    /* Elevación */
     --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06);
     --shadow-lg: 0 12px 28px -6px rgba(15, 23, 42, 0.08);
     --shadow-pink: 0 6px 18px rgba(222, 39, 129, 0.28);
     --ring-pink: 0 0 0 4px rgba(222, 39, 129, 0.14);
 
-    /* Forma */
+    --radius-sm: 10px;
     --radius-md: 14px;
     --radius-lg: 20px;
     --radius-xl: 28px;
+
+    --sidebar-w: 300px;
 }
 
-/* Base */
+/* ---------- Base ---------- */
 html, body, .stApp, [class*="st-"] {
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: var(--text-main);
@@ -47,38 +46,87 @@ html, body, .stApp, [class*="st-"] {
     background-attachment: fixed;
 }
 
-/* Ocultar chrome de Streamlit */
-#MainMenu, footer, [data-testid="stToolbar"], [data-testid="stDecoration"] {
-    visibility: hidden;
+/* ---------- Chrome de Streamlit ----------
+   IMPORTANTE: NO ocultar stToolbar ni stHeader: ahí vive el botón
+   que abre/cierra el menú lateral. Solo ocultamos lo que sobra. */
+#MainMenu, footer,
+[data-testid="stDecoration"],
+[data-testid="stStatusWidget"],
+.stDeployButton, [data-testid="stAppDeployButton"] {
+    display: none !important;
 }
 
-/* ============================================================
-   BOTÓN PARA ABRIR EL MENÚ (LA FLECHITA)
-   ============================================================ */
-[data-testid="stSidebarCollapsedControl"] {
+header[data-testid="stHeader"] {
+    background: transparent !important;
+    height: 3rem;
+}
+
+/* Botones para abrir / cerrar el menú (todas las versiones) */
+[data-testid="stSidebarCollapsedControl"],
+[data-testid="stExpandSidebarButton"],
+[data-testid="stSidebarCollapseButton"],
+[data-testid="collapsedControl"] {
     visibility: visible !important;
-    display: block !important;
+    display: flex !important;
+    opacity: 1 !important;
+    z-index: 999999;
+}
+
+[data-testid="stSidebarCollapsedControl"] button,
+[data-testid="stExpandSidebarButton"],
+[data-testid="collapsedControl"] button {
     color: var(--brand-pink) !important;
-    background-color: var(--surface) !important;
-    border-radius: 50%;
+    background: var(--surface) !important;
+    border: 1px solid var(--brand-pink-line) !important;
+    border-radius: 50% !important;
     box-shadow: var(--shadow-md);
-    margin: 10px;
 }
 
 /* ============================================================
    SIDEBAR
    ============================================================ */
-[data-testid="stSidebar"] {
+section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
     border-right: 1px solid var(--border);
     box-shadow: 4px 0 24px rgba(15, 23, 42, 0.04);
 }
 
+/* Ancho fijo SOLO cuando está abierto (así colapsa bien) */
+section[data-testid="stSidebar"][aria-expanded="true"] {
+    min-width: var(--sidebar-w) !important;
+    max-width: var(--sidebar-w) !important;
+    width: var(--sidebar-w) !important;
+}
+
+section[data-testid="stSidebar"] > div:first-child {
+    padding-top: 1rem;
+}
+
+[data-testid="stSidebarUserContent"] {
+    padding: 1rem 1.2rem 1.5rem 1.2rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.4rem;
+}
+
+.brand-logo {
+    width: 44px; height: 44px;
+    border-radius: 14px;
+    background: var(--brand-grad);
+    display: grid; place-items: center;
+    font-size: 1.4rem;
+    box-shadow: var(--shadow-pink);
+}
+
 .sidebar-title {
-    font-size: 1.85rem;
+    font-size: 1.7rem;
     font-weight: 800;
     letter-spacing: -0.045em;
-    margin-bottom: 0.25rem;
+    line-height: 1;
 }
 
 .sidebar-title span {
@@ -88,18 +136,33 @@ html, body, .stApp, [class*="st-"] {
 }
 
 .sidebar-sub {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
-    margin-bottom: 2rem;
-    padding-bottom: 1.4rem;
+    margin-bottom: 1.4rem;
+    padding-bottom: 1.2rem;
     border-bottom: 1px solid var(--border);
 }
 
-[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] > div:first-child {
+.nav-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 0.5rem 0.3rem;
+}
+
+/* Radio convertido en menú */
+section[data-testid="stSidebar"] .stRadio [role="radiogroup"] {
+    gap: 4px;
+}
+
+section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] > div:first-child {
     display: none !important;
 }
 
-[data-testid="stSidebar"] .stRadio label {
+section[data-testid="stSidebar"] .stRadio label {
+    width: 100%;
     background-color: transparent !important;
     padding: 12px 16px !important;
     border-radius: var(--radius-md) !important;
@@ -107,35 +170,61 @@ html, body, .stApp, [class*="st-"] {
     border-left: 4px solid transparent !important;
     transition: all 0.25s ease !important;
     cursor: pointer !important;
-    margin-bottom: 6px;
     font-weight: 500;
     color: var(--text-soft);
 }
 
-[data-testid="stSidebar"] .stRadio label:hover {
+section[data-testid="stSidebar"] .stRadio label p {
+    font-size: 0.97rem;
+    margin: 0;
+}
+
+section[data-testid="stSidebar"] .stRadio label:hover {
     background-color: var(--bg-app) !important;
     transform: translateX(3px);
 }
 
-[data-testid="stSidebar"] .stRadio [data-checked="true"] label,
-[data-testid="stSidebar"] .stRadio label:has(input:checked) {
+section[data-testid="stSidebar"] .stRadio label:has(input:checked) {
     background: linear-gradient(90deg, var(--brand-pink-soft), #ffffff) !important;
+    border: 1px solid var(--brand-pink-line) !important;
     border-left: 4px solid var(--brand-pink) !important;
-    border-top: 1px solid var(--brand-pink-line) !important;
-    border-right: 1px solid var(--brand-pink-line) !important;
-    border-bottom: 1px solid var(--brand-pink-line) !important;
-    color: var(--brand-pink) !important;
-    font-weight: 700 !important;
     box-shadow: var(--shadow-sm);
 }
 
+section[data-testid="stSidebar"] .stRadio label:has(input:checked) p {
+    color: var(--brand-pink) !important;
+    font-weight: 700 !important;
+}
+
+/* Tarjeta de estado en el sidebar */
+.side-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.9rem 1rem;
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    line-height: 1.5;
+}
+
+.side-card b { color: var(--text-main); }
+
+.dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    margin-right: 6px;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
+}
+
 /* ============================================================
-   CONTENIDO PRINCIPAL Y HERO
+   CONTENIDO PRINCIPAL
    ============================================================ */
 .block-container {
     max-width: 1000px;
-    padding-top: 3.5rem;
-    padding-bottom: 6rem;
+    padding-top: 2.2rem;
+    padding-bottom: 5rem;
 }
 
 .hero {
@@ -143,11 +232,11 @@ html, body, .stApp, [class*="st-"] {
         radial-gradient(600px 220px at 100% 0%, rgba(222, 39, 129, 0.07), transparent 70%),
         radial-gradient(500px 220px at 0% 100%, rgba(0, 130, 225, 0.07), transparent 70%),
         var(--surface);
-    padding: 3rem;
+    padding: 2.2rem 2.6rem;
     border-radius: var(--radius-xl);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-lg);
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.8rem;
     position: relative;
     overflow: hidden;
     animation: slideUp 0.6s ease both;
@@ -161,9 +250,10 @@ html, body, .stApp, [class*="st-"] {
 }
 
 .hero-title {
-    font-size: 2.7rem;
+    font-size: 2.3rem;
     font-weight: 800;
-    margin: 0 0 0.8rem 0;
+    margin: 0 0 0.5rem 0;
+    padding: 0;
     letter-spacing: -0.035em;
 }
 
@@ -175,14 +265,37 @@ html, body, .stApp, [class*="st-"] {
 
 .hero-sub {
     color: var(--text-muted);
-    font-size: 1.08rem;
-    line-height: 1.65;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    margin: 0;
 }
+
+.empty-state {
+    text-align: center;
+    padding: 2rem 1rem 1.2rem 1rem;
+}
+
+.empty-state h2 { font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.3rem; }
+.empty-state p  { color: var(--text-muted); }
+
+.glass-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--brand-pink);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.glass-card h3 { margin-top: 0; font-size: 1.1rem; }
+.glass-card ul { padding-left: 1.1rem; color: var(--text-soft); line-height: 1.9; margin-bottom: 0; }
 
 /* ============================================================
    CHAT
    ============================================================ */
-[data-testid="stBottom"], [data-testid="stBottomBlockContainer"], .stChatFloatingInputContainer {
+[data-testid="stBottom"],
+[data-testid="stBottomBlockContainer"],
+.stChatFloatingInputContainer {
     background-color: transparent !important;
 }
 
@@ -192,11 +305,11 @@ html, body, .stApp, [class*="st-"] {
     border-radius: var(--radius-lg) !important;
     box-shadow: var(--shadow-lg) !important;
     transition: all 0.25s ease !important;
-    padding: 0.5rem;
+    padding: 0.4rem;
 }
 
 [data-testid="stChatInput"]:focus-within {
-    border-color: var(--brand-blue) !important;
+    border-color: var(--brand-pink) !important;
     box-shadow: var(--ring-pink), var(--shadow-lg) !important;
 }
 
@@ -208,17 +321,15 @@ html, body, .stApp, [class*="st-"] {
     box-shadow: var(--shadow-pink);
 }
 
-[data-testid="stChatInput"] button:hover {
-    transform: scale(1.06);
-}
+[data-testid="stChatInput"] button:hover { transform: scale(1.06); }
 
 [data-testid="stChatMessage"] {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 1.4rem 1.5rem;
+    padding: 1.2rem 1.4rem;
     box-shadow: var(--shadow-sm);
-    margin-bottom: 1.1rem;
+    margin-bottom: 1rem;
     animation: slideUp 0.4s ease both;
 }
 
@@ -246,29 +357,33 @@ html, body, .stApp, [class*="st-"] {
 }
 
 .stButton > button:hover {
-    border-color: var(--brand-blue);
-    color: var(--brand-blue);
+    border-color: var(--brand-pink);
+    color: var(--brand-pink);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
-button[kind="primary"] {
+button[kind="primary"],
+button[data-testid="stBaseButton-primary"],
+button[data-testid="stBaseButton-primaryFormSubmit"] {
     background: var(--brand-grad) !important;
     border: none !important;
     color: #ffffff !important;
     box-shadow: var(--shadow-pink) !important;
 }
 
-button[kind="primary"]:hover {
+button[kind="primary"]:hover,
+button[data-testid="stBaseButton-primary"]:hover {
+    color: #ffffff !important;
     transform: translateY(-2px) scale(1.015);
 }
 
 /* ============================================================
-   FORMULARIOS Y CARGADOR DE ARCHIVOS
+   FORMULARIOS Y UPLOADER
    ============================================================ */
 [data-testid="stForm"] {
     background: var(--surface);
-    padding: 2.4rem;
+    padding: 2rem;
     border-radius: var(--radius-xl);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-md);
@@ -291,7 +406,7 @@ button[kind="primary"]:hover {
     background-color: var(--surface-2) !important;
     border: 2px dashed var(--border-strong) !important;
     border-radius: var(--radius-lg) !important;
-    padding: 3rem 2rem !important;
+    padding: 2.4rem 2rem !important;
     transition: all 0.25s ease !important;
 }
 
@@ -306,7 +421,6 @@ button[kind="primary"]:hover {
     border: 1px solid var(--brand-pink) !important;
     border-radius: var(--radius-md) !important;
     font-weight: 700 !important;
-    padding: 0.6rem 1.8rem !important;
 }
 
 [data-testid="stFileUploaderDropzone"] button:hover {
@@ -314,6 +428,14 @@ button[kind="primary"]:hover {
     color: #ffffff !important;
     border-color: transparent !important;
     box-shadow: var(--shadow-pink) !important;
+}
+
+[data-testid="stMetric"] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.9rem 1.1rem;
+    box-shadow: var(--shadow-sm);
 }
 
 /* ============================================================
@@ -325,7 +447,8 @@ button[kind="primary"]:hover {
 }
 
 @media (max-width: 768px) {
-    .block-container { padding: 2rem 1rem 5rem 1rem; }
-    .hero { padding: 1.8rem 1.4rem; }
-    [data-testid="stForm"] { padding: 1.4rem; }
+    .block-container { padding: 1.5rem 1rem 5rem 1rem; }
+    .hero { padding: 1.5rem 1.3rem; }
+    .hero-title { font-size: 1.8rem; }
+    [data-testid="stForm"] { padding: 1.3rem; }
 }
