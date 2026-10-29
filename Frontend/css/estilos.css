@@ -478,6 +478,96 @@ button[data-testid="stBaseButton-primary"]:hover {
 /* ============================================================
    ANIMACIONES Y RESPONSIVE
    ============================================================ */
+/* ============================================================
+   NAVEGACIÓN LATERAL (botones)
+   ============================================================ */
+section[data-testid="stSidebar"] .stButton > button {
+    width: 100%;
+    justify-content: flex-start;
+    text-align: left;
+    background: transparent;
+    border: 1px solid transparent;
+    border-left: 4px solid transparent;
+    box-shadow: none;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    color: var(--text-soft);
+    font-weight: 500;
+}
+
+section[data-testid="stSidebar"] .stButton > button p {
+    font-size: 0.95rem;
+    margin: 0;
+    white-space: nowrap;
+}
+
+section[data-testid="stSidebar"] .stButton > button:hover {
+    background: var(--bg-app);
+    border-color: transparent;
+    border-left-color: var(--border-strong);
+    color: var(--text-main);
+    transform: translateX(3px);
+    box-shadow: none;
+}
+
+/* Item activo (type="primary") dentro del sidebar */
+section[data-testid="stSidebar"] button[kind="primary"],
+section[data-testid="stSidebar"] button[data-testid="stBaseButton-primary"] {
+    background: linear-gradient(90deg, var(--brand-pink-soft), #ffffff) !important;
+    border: 1px solid var(--brand-pink-line) !important;
+    border-left: 4px solid var(--brand-pink) !important;
+    color: var(--brand-pink) !important;
+    font-weight: 700 !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+section[data-testid="stSidebar"] button[kind="primary"]:hover,
+section[data-testid="stSidebar"] button[data-testid="stBaseButton-primary"]:hover {
+    color: var(--brand-pink-hover) !important;
+    transform: none;
+}
+
+/* Botón "Nueva conversación" del sidebar */
+section[data-testid="stSidebar"] .st-key-btn_nueva button {
+    justify-content: center;
+    border: 1px dashed var(--border-strong);
+    color: var(--text-muted);
+}
+
+section[data-testid="stSidebar"] .st-key-btn_nueva button:hover {
+    border-color: var(--brand-pink);
+    color: var(--brand-pink);
+    transform: none;
+}
+
+/* ============================================================
+   UPLOADER EN ESPAÑOL
+   ============================================================ */
+[data-testid="stFileUploaderDropzoneInstructions"] span,
+[data-testid="stFileUploaderDropzoneInstructions"] small {
+    display: none !important;
+}
+
+[data-testid="stFileUploaderDropzoneInstructions"]::after {
+    content: "Arrastra tus PDFs aquí · máx. 200 MB por archivo";
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+[data-testid="stFileUploaderDropzone"] button {
+    font-size: 0 !important;
+}
+
+[data-testid="stFileUploaderDropzone"] button::after {
+    content: "Seleccionar PDFs";
+    font-size: 0.92rem;
+}
+
+[data-testid="stFileUploaderDropzone"] button svg,
+[data-testid="stFileUploaderDropzone"] button [data-testid="stIconMaterial"] {
+    display: none;
+}
+
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }

@@ -116,7 +116,24 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-    menu = st.radio("Navegación", MENU_ITEMS, label_visibility="collapsed")
+    if "menu" not in st.session_state:
+        st.session_state.menu = MENU_ITEMS[0]
+
+    def ir_a(item: str) -> None:
+        st.session_state.menu = item
+
+    for i, item in enumerate(MENU_ITEMS):
+        activo = st.session_state.menu == item
+        st.button(
+            item,
+            key=f"nav_{i}",
+            on_click=ir_a,
+            args=(item,),
+            type="primary" if activo else "secondary",
+            use_container_width=True,
+        )
+
+    menu = st.session_state.menu
 
     st.markdown("<div style='height:1.2rem'></div>", unsafe_allow_html=True)
 
