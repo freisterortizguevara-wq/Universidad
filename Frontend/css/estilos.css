@@ -33,9 +33,24 @@
 }
 
 /* ---------- Base ---------- */
-html, body, .stApp, [class*="st-"] {
+html, body, .stApp,
+.stApp p, .stApp label, .stApp li, .stApp h1, .stApp h2, .stApp h3, .stApp h4,
+.stApp input, .stApp textarea, .stApp button,
+.stApp [data-baseweb], .stApp [data-testid="stMarkdownContainer"] {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--text-main);
+}
+
+body, .stApp { color: var(--text-main); }
+
+/* Íconos de Streamlit: NUNCA sobrescribir su fuente
+   (si no, se ve el texto "keyboard_double..." en vez del ícono) */
+[data-testid="stIconMaterial"],
+.material-icons,
+.material-symbols-rounded,
+[class*="material-symbols"] {
+    font-family: 'Material Symbols Rounded', 'Material Icons' !important;
+    font-weight: 400 !important;
+    letter-spacing: normal !important;
 }
 
 .stApp {
@@ -157,14 +172,17 @@ section[data-testid="stSidebar"] .stRadio [role="radiogroup"] {
     gap: 4px;
 }
 
-section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] > div:first-child {
+/* Ocultar el circulito del radio (todas las versiones) */
+section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"] > div:first-of-type,
+section[data-testid="stSidebar"] .stRadio label > div:first-of-type:not(:last-of-type) {
     display: none !important;
 }
 
 section[data-testid="stSidebar"] .stRadio label {
     width: 100%;
+    white-space: nowrap;
     background-color: transparent !important;
-    padding: 12px 16px !important;
+    padding: 11px 14px !important;
     border-radius: var(--radius-md) !important;
     border: 1px solid transparent !important;
     border-left: 4px solid transparent !important;
@@ -175,8 +193,9 @@ section[data-testid="stSidebar"] .stRadio label {
 }
 
 section[data-testid="stSidebar"] .stRadio label p {
-    font-size: 0.97rem;
+    font-size: 0.95rem;
     margin: 0;
+    white-space: nowrap;
 }
 
 section[data-testid="stSidebar"] .stRadio label:hover {
@@ -288,7 +307,14 @@ section[data-testid="stSidebar"] .stRadio label:has(input:checked) p {
 }
 
 .glass-card h3 { margin-top: 0; font-size: 1.1rem; }
-.glass-card ul { padding-left: 1.1rem; color: var(--text-soft); line-height: 1.9; margin-bottom: 0; }
+.glass-card ul {
+    padding-left: 1.1rem;
+    color: var(--text-soft);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+.glass-card li { margin-bottom: 0.6rem; overflow-wrap: normal; word-break: normal; }
 
 /* ============================================================
    CHAT
@@ -391,9 +417,20 @@ button[data-testid="stBaseButton-primary"]:hover {
 
 [data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="select"] > div {
     border-radius: var(--radius-sm) !important;
-    border: 1px solid var(--border) !important;
-    background-color: var(--surface-2) !important;
+    border: 1px solid var(--border-strong) !important;
+    background-color: #f1f5f9 !important;
     transition: all 0.25s ease;
+}
+
+[data-baseweb="input"] input, [data-baseweb="textarea"] textarea {
+    background-color: transparent !important;
+    color: var(--text-main) !important;
+}
+
+[data-testid="stWidgetLabel"] p {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-soft);
 }
 
 [data-baseweb="input"]:focus-within, [data-baseweb="textarea"]:focus-within {

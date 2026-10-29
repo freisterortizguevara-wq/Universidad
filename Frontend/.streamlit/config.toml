@@ -1,7 +1,13 @@
 [theme]
-base="light"
-primaryColor="#de2781"
-backgroundColor="#f8f9fc"
-secondaryBackgroundColor="#ffffff"
-textColor="#111827"
-font="sans serif"
+base = "light"
+primaryColor = "#de2781"
+backgroundColor = "#f4f7f9"
+secondaryBackgroundColor = "#f1f5f9"
+textColor = "#0f172a"
+font = "sans serif"
+ 
+[client]
+# Oculta Deploy y opciones extra, pero conserva el botón del menú lateral
+toolbarMode = "minimal"
+showSidebarNavigation = false
+ 

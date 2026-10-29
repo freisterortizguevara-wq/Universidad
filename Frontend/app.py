@@ -211,7 +211,7 @@ elif menu == "📝 Contacto Humano":
         "Si la IA no resolvió tu duda, déjanos tus datos y un asesor se contactará contigo.",
     )
 
-    col_form, col_info = st.columns([2, 1], gap="large")
+    col_form, col_info = st.columns([5, 3], gap="large")
 
     with col_form:
         with st.form("formulario_registro", border=False):
