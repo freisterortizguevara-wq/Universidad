@@ -10,7 +10,7 @@ import streamlit as st
 # CONFIGURACIÓN
 # ------------------------------------------------------------
 CHAT_API_URL = "https://universidad-megt.onrender.com/chat"
-PDF_API_URL = "https://universidad-1-uvcd.onrender.com/upload-pdf/" # ¡Revisa que esta sea tu URL de PDFs!
+PDF_API_URL = "https://universidad-1-uvcd.onrender.com/upload-pdf/" 
 REQUEST_TIMEOUT = 120
 
 SUGERENCIAS = [
@@ -24,11 +24,11 @@ st.set_page_config(
     page_title="TECH AI Portal",
     page_icon="🎓",
     layout="wide",
-    initial_sidebar_state="collapsed", # Ocultamos el menú lateral nativo
+    initial_sidebar_state="expanded", # <-- FORZAMOS QUE EL MENÚ LATERAL ESTÉ ABIERTO
 )
 
 # ------------------------------------------------------------
-# UTILIDADES
+# UTILIDADES Y LÓGICA
 # ------------------------------------------------------------
 def load_css(path: str = "css/estilos.css") -> None:
     css_file = Path(__file__).parent / path
@@ -58,15 +58,10 @@ def subir_pdf(archivo) -> dict:
 def email_valido(email: str) -> bool:
     return bool(re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email))
 
-# ------------------------------------------------------------
-# ESTADO DE SESIÓN
-# ------------------------------------------------------------
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 if "messages" not in st.session_state:
     st.session_state.messages = []
-if "menu_actual" not in st.session_state:
-    st.session_state.menu_actual = "💬 Asistente Virtual"
 
 def nueva_conversacion() -> None:
     st.session_state.messages = []
@@ -75,45 +70,33 @@ def nueva_conversacion() -> None:
 def usar_sugerencia(texto: str) -> None:
     st.session_state.pending_prompt = texto
 
-# ------------------------------------------------------------
-# ESTILOS Y ENCABEZADO
-# ------------------------------------------------------------
 load_css()
 
-st.markdown(
-    """
-    <div style="margin-bottom: 1rem;">
-        <h1 style="color: #de2781; font-size: 2.5rem; margin-bottom: 0; font-weight: 800;">TECH AI</h1>
-        <p style="color: #64748b; font-size: 1.1rem;">Portal de Admisiones Inteligente</p>
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
-
-# --- MENÚ DE NAVEGACIÓN SUPERIOR ---
-col1, col2, col3, col4 = st.columns([1, 1, 1, 3])
-
-with col1:
-    if st.button("💬 Asistente", use_container_width=True, type="primary" if st.session_state.menu_actual == "💬 Asistente Virtual" else "secondary"):
-        st.session_state.menu_actual = "💬 Asistente Virtual"
-        st.rerun()
-with col2:
-    if st.button("📝 Contacto", use_container_width=True, type="primary" if st.session_state.menu_actual == "📝 Contacto Humano" else "secondary"):
-        st.session_state.menu_actual = "📝 Contacto Humano"
-        st.rerun()
-with col3:
-    if st.button("⚙️ Admin PDFs", use_container_width=True, type="primary" if st.session_state.menu_actual == "⚙️ Admin Documentos" else "secondary"):
-        st.session_state.menu_actual = "⚙️ Admin Documentos"
-        st.rerun()
-
-st.markdown("---")
+# ------------------------------------------------------------
+# SIDEBAR (EL MENÚ LATERAL QUE TE GUSTABA)
+# ------------------------------------------------------------
+with st.sidebar:
+    st.markdown(
+        """
+        <div class="sidebar-title">TECH <span>AI</span></div>
+        <div class="sidebar-sub">Portal de Admisiones Inteligente</div>
+        """, 
+        unsafe_allow_html=True
+    )
+    
+    menu = st.radio(
+        "Navegación",
+        ["💬 Asistente Virtual", "📝 Contacto Humano", "⚙️ Admin Documentos"],
+        label_visibility="collapsed"
+    )
+    
+    st.markdown("---")
+    st.caption("Desarrollado con LangGraph, Neon y Groq.")
 
 # ------------------------------------------------------------
 # CONTENIDO PRINCIPAL
 # ------------------------------------------------------------
-
-# --- VISTA 1: CHAT ---
-if st.session_state.menu_actual == "💬 Asistente Virtual":
+if menu == "💬 Asistente Virtual":
     st.markdown(
         """
         <div class="hero">
@@ -146,8 +129,8 @@ if st.session_state.menu_actual == "💬 Asistente Virtual":
                 """,
                 unsafe_allow_html=True,
             )
-            columnas_sug = st.columns(len(SUGERENCIAS))
-            for col, (etiqueta, texto) in zip(columnas_sug, SUGERENCIAS):
+            columnas = st.columns(len(SUGERENCIAS))
+            for col, (etiqueta, texto) in zip(columnas, SUGERENCIAS):
                 col.button(etiqueta, key=f"sug_{etiqueta}", on_click=usar_sugerencia,
                            args=(texto,), use_container_width=True)
 
@@ -172,8 +155,7 @@ if st.session_state.menu_actual == "💬 Asistente Virtual":
                 except Exception as e:
                     st.error(f"Ocurrió un error: {e}")
 
-# --- VISTA 2: CONTACTO HUMANO ---
-elif st.session_state.menu_actual == "📝 Contacto Humano":
+elif menu == "📝 Contacto Humano":
     st.markdown(
         """
         <div class="hero">
@@ -222,8 +204,7 @@ elif st.session_state.menu_actual == "📝 Contacto Humano":
             unsafe_allow_html=True,
         )
 
-# --- VISTA 3: ADMIN PDFs ---
-elif st.session_state.menu_actual == "⚙️ Admin Documentos":
+elif menu == "⚙️ Admin Documentos":
     st.markdown(
         """
         <div class="hero">
