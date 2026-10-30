@@ -10,7 +10,7 @@ import streamlit as st
 # CONFIGURACIÓN
 # ============================================================
 CHAT_API_URL = "https://universidad-megt.onrender.com/chat"
-PDF_API_URL = "https://universidad-1-uvcd.onrender.com/upload-pdf/"
+PDF_API_URL = "https://universidad-2.onrender.com/upload-pdf/"
 REQUEST_TIMEOUT = 120
 
 SUGERENCIAS = [
