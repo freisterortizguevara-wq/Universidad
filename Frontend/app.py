@@ -33,7 +33,6 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-
 # ============================================================
 # UTILIDADES
 # ============================================================
@@ -46,7 +45,6 @@ def load_css(path: str = "css/estilos.css") -> None:
         )
     else:
         st.warning(f"No se encontró el archivo de estilos: {path}")
-
 
 def preguntar_al_agente(pregunta: str) -> str:
     response = requests.post(
@@ -61,12 +59,10 @@ def preguntar_al_agente(pregunta: str) -> str:
     data = response.json()
     return data.get("respuesta", "No recibí una respuesta válida del asistente.")
 
-
 def efecto_escritura(texto: str, delay: float = 0.008):
     for palabra in texto.split(" "):
         yield palabra + " "
         time.sleep(delay)
-
 
 def subir_pdf(archivo) -> dict:
     files = {
@@ -80,10 +76,8 @@ def subir_pdf(archivo) -> dict:
     response.raise_for_status()
     return response.json()
 
-
 def email_valido(email: str) -> bool:
     return bool(re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email.strip()))
-
 
 def hero(eyebrow: str, titulo: str, resaltado: str, subtitulo: str) -> None:
     st.markdown(
@@ -104,16 +98,13 @@ def hero(eyebrow: str, titulo: str, resaltado: str, subtitulo: str) -> None:
         unsafe_allow_html=True,
     )
 
-
 def nueva_conversacion() -> None:
     st.session_state.messages = []
     st.session_state.session_id = str(uuid.uuid4())
     st.session_state.pop("pending_prompt", None)
 
-
 def usar_sugerencia(texto: str) -> None:
     st.session_state.pending_prompt = texto
-
 
 # ============================================================
 # ESTADO
@@ -128,7 +119,6 @@ if "menu" not in st.session_state:
     st.session_state.menu = MENU_ITEMS[0]
 
 load_css()
-
 
 # ============================================================
 # SIDEBAR
@@ -181,7 +171,6 @@ with st.sidebar:
         """,
         unsafe_allow_html=True,
     )
-
 
 # ============================================================
 # ASISTENTE VIRTUAL
@@ -249,7 +238,8 @@ if menu == MENU_ITEMS[0]:
                     )
 
         for msg in st.session_state.messages:
-            avatar = "🧑‍🎓" if msg["role"] == "user" else "✦"
+            # CAMBIO CLAVE: Usamos emojis seguros en lugar de símbolos que confunden a Streamlit
+            avatar = "🧑‍🎓" if msg["role"] == "user" else "🎓"
             with st.chat_message(msg["role"], avatar=avatar):
                 st.markdown(msg["content"])
 
@@ -279,7 +269,6 @@ if menu == MENU_ITEMS[0]:
         '<div class="privacy-note">La información se consulta a través de los servicios de TECH AI.</div>',
         unsafe_allow_html=True,
     )
-
 
 # ============================================================
 # CONTACTO HUMANO
@@ -337,8 +326,6 @@ elif menu == MENU_ITEMS[1]:
             elif not email_valido(email):
                 st.warning("Verifica el formato del correo electrónico.")
             else:
-                # Este formulario conserva el comportamiento original:
-                # muestra confirmación local, pero aún no envía los datos a un backend.
                 st.success(
                     f"Gracias, {nombre}. El formulario fue validado correctamente. "
                     "Para registrar la solicitud, conecta este bloque con tu servicio de contacto."
@@ -370,7 +357,6 @@ elif menu == MENU_ITEMS[1]:
             """,
             unsafe_allow_html=True,
         )
-
 
 # ============================================================
 # BASE DE CONOCIMIENTOS
