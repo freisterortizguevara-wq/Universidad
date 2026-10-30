@@ -258,7 +258,7 @@ if menu == MENU_ITEMS[0]:
             with st.chat_message("user", avatar="🧑‍🎓"):
                 st.markdown(prompt)
 
-            with st.chat_message("assistant", avatar="✦"):
+            with st.chat_message("assistant", avatar="🎓"):
                 try:
                     with st.spinner("Consultando la base de conocimientos..."):
                         respuesta = preguntar_al_agente(prompt)
